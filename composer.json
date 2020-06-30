@@ -1,36 +1,41 @@
 {
-    "name": "spatie/postcode-service",
+    "name": "cmesptchr/postcode-service",
     "description": "Pro6pp v2 API implementation",
     "keywords": [
-        "spatie",
-        "postcode-service"
+        "postcode",
+        "api",
+        "pro6pp",
+        "php"
     ],
-    "homepage": "https://github.com/spatie/postcode-service",
+    "homepage": "https://github.com/cmesptchr/postcode-service",
     "license": "MIT",
     "authors": [
         {
             "name": "Christiaan Mes",
             "email": "christiaan@ptchr.nl",
-            "homepage": "https://spatie.be",
+            "homepage": "https://ptchr.nl",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "guzzlehttp/guzzle": "^7.0",
+        "ext-json": "*"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-master",
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpunit/phpunit": "^9.0",
         "vimeo/psalm": "^3.11"
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Ptchr\\PostalCodeService\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Tests\\": "tests"
+            "Ptchr\\PostalCodeService\\Tests\\": "tests"
         }
     },
     "scripts": {

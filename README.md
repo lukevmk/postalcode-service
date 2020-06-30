@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/cmesptchr/postcode-service.svg?style=flat-square)](https://packagist.org/packages/cmesptchr/postcode-service)
 
 
-Pro6pp v2 API implementation
+[API docs]((https://pro6pp.nl/docs/v2/redoc))
 
 ## Installation
 
