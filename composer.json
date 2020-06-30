@@ -1,16 +1,16 @@
 {
-    "name": "spatie/:package_name",
-    "description": ":package_description",
+    "name": "spatie/postcode-service",
+    "description": "Pro6pp v2 API implementation",
     "keywords": [
         "spatie",
-        ":package_name"
+        "postcode-service"
     ],
-    "homepage": "https://github.com/spatie/:package_name",
+    "homepage": "https://github.com/spatie/postcode-service",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": "Christiaan Mes",
+            "email": "christiaan@ptchr.nl",
             "homepage": "https://spatie.be",
             "role": "Developer"
         }
