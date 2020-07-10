@@ -21,7 +21,7 @@ class Pro6pp
     /**
      * @var Client
      */
-    private $guzzle;
+    private Client $guzzle;
 
     /**
      * @var string
@@ -40,11 +40,11 @@ class Pro6pp
 
     /**
      * @param string $postalCode
-     * @param string|int $houseNumber
+     * @param string $houseNumber
      * @param string|null $city
      * @param string|null $street
      * @param string|null $addition
-     * @return array
+     * @return null|array
      * @throws AddressNotFoundException
      * @throws BadRequestException
      * @throws GuzzleException
@@ -57,17 +57,14 @@ class Pro6pp
         string $city = null,
         string $street = null,
         string $addition = null
-    ): array {
+    ): ?array {
         $parameters = [];
 
-        if ($houseNumber !== null) {
-            $parameters['streetNumber'] = str_replace(' ', '', $houseNumber);
-        }
+        $parameters['streetNumber'] = str_replace(' ', '', $houseNumber);
 
         $postalCode = str_replace(' ', '', $postalCode);
-        $postCodeContainsOnlyNumbers = (bool) preg_match('/^[0-9]+$/', $postalCode);
+        $postCodeContainsOnlyNumbers = (bool)preg_match('/^[0-9]+$/', $postalCode);
 
-        $country = null;
 
         switch (strlen($postalCode)) {
             case strlen($postalCode) === 6 && ! $postCodeContainsOnlyNumbers:
@@ -86,9 +83,7 @@ class Pro6pp
 
                 break;
             default:
-                throw new InvalidPostalCodeException('Cannot match Country postal code format for: '.$postalCode);
-
-                break;
+                throw new InvalidPostalCodeException('Cannot match Country postal code format for: ' . $postalCode);
         }
 
         if ($city !== null) {
@@ -104,23 +99,30 @@ class Pro6pp
         }
 
         try {
-            return $this->request('get', 'autocomplete/'.$country.'/', $parameters);
+            return $this->request('get', 'autocomplete/' . $country . '/', $parameters);
         } catch (ClientException $exception) {
             $statusCode = $exception->getResponse()->getStatusCode();
 
             if ($statusCode === 404) {
-                $message = 'No address found for postal code: '.$postalCode.' with house number: '.$houseNumber;
+                $message = 'No address found for postal code: ' . $postalCode . ' with house number: ' . $houseNumber;
 
-                throw new AddressNotFoundException($message, $exception->getCode(), $exception);
+                throw new AddressNotFoundException($message, (int)$exception->getCode(), $exception);
             }
 
             if ($statusCode === 400) {
-                throw new BadRequestException('Invalid request', $exception->getCode(), $exception);
+                throw new BadRequestException('Invalid request', (int)$exception->getCode(), $exception);
             }
 
             if ($statusCode === 401) {
-                throw new UnauthorizedException('Unauthorized', $exception->getCode(), $exception);
+                throw new UnauthorizedException('Unauthorized', (int)$exception->getCode(), $exception);
             }
+
+            throw new ClientException(
+                $exception->getMessage(),
+                $exception->getRequest(),
+                $exception->getResponse(),
+                $exception
+            );
         }
     }
 
@@ -141,30 +143,37 @@ class Pro6pp
         ];
 
         try {
-            return $this->request('get', 'suggest/'.strtolower($countryCode).'/postalCode', $parameters);
+            return $this->request('get', 'suggest/' . strtolower($countryCode) . '/postalCode', $parameters);
         } catch (ClientException $exception) {
             $statusCode = $exception->getResponse()->getStatusCode();
 
             if ($statusCode === 400) {
-                throw new BadRequestException('Invalid request', $exception->getCode(), $exception);
+                throw new BadRequestException('Invalid request', (int)$exception->getCode(), $exception);
             }
 
             if ($statusCode === 401) {
-                throw new UnauthorizedException('Unauthorized', $exception->getCode(), $exception);
+                throw new UnauthorizedException('Unauthorized', (int)$exception->getCode(), $exception);
             }
+
+            throw new ClientException(
+                $exception->getMessage(),
+                $exception->getRequest(),
+                $exception->getResponse(),
+                $exception
+            );
         }
     }
 
     /**
      * @param string $countryCode
-     * @param string|int $cityName
+     * @param string $cityName
      * @param int $maxResults
      * @return array
      * @throws BadRequestException
      * @throws GuzzleException
      * @throws UnauthorizedException
      */
-    public function suggestCitiesByName(string $countryCode, string $cityName, int $maxResults = 10): array
+    public function suggestCitiesByName(string $countryCode, string $cityName, int $maxResults = 10): ?array
     {
         $parameters = [
             'settlement' => $cityName,
@@ -172,17 +181,24 @@ class Pro6pp
         ];
 
         try {
-            return $this->request('get', 'suggest/'.strtolower($countryCode).'/settlement', $parameters);
+            return $this->request('get', 'suggest/' . strtolower($countryCode) . '/settlement', $parameters);
         } catch (ClientException $exception) {
             $statusCode = $exception->getResponse()->getStatusCode();
 
             if ($statusCode === 400) {
-                throw new BadRequestException('Invalid request', $exception->getCode(), $exception);
+                throw new BadRequestException('Invalid request', (int)$exception->getCode(), $exception);
             }
 
             if ($statusCode === 401) {
-                throw new UnauthorizedException('Unauthorized', $exception->getCode(), $exception);
+                throw new UnauthorizedException('Unauthorized', (int)$exception->getCode(), $exception);
             }
+
+            throw new ClientException(
+                $exception->getMessage(),
+                $exception->getRequest(),
+                $exception->getResponse(),
+                $exception
+            );
         }
     }
 
@@ -197,7 +213,7 @@ class Pro6pp
     {
         $requestParameters['authKey'] = $this->apiKey;
 
-        $response = $this->guzzle->request($method, $this->baseUrl.$endpoint, [
+        $response = $this->guzzle->request($method, $this->baseUrl . $endpoint, [
             'query' => $requestParameters,
         ]);
 
