@@ -203,6 +203,33 @@ class Pro6pp
     }
 
     /**
+     * @param float $lat1
+     * @param float $lon1
+     * @param float $lat2
+     * @param float $lon2
+     * @return float|int
+     */
+    public function distanceBetweenInKilometers(float $lat1, float $lon1, float $lat2, float $lon2)
+    {
+        $pi80 = M_PI / 180;
+
+        $lat1 *= $pi80;
+        $lon1 *= $pi80;
+        $lat2 *= $pi80;
+        $lon2 *= $pi80;
+
+        $r = 6372.797; // mean radius of Earth in km
+
+        $dlat = $lat2 - $lat1;
+        $dlon = $lon2 - $lon1;
+
+        $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin($dlon / 2) * sin($dlon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        return $r * $c;
+    }
+
+    /**
      * @param string $method
      * @param string $endpoint
      * @param array $requestParameters

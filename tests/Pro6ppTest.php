@@ -103,4 +103,14 @@ class Pro6ppTest extends TestCase
             $this->assertCount($city['assert_count'], $suggest);
         }
     }
+
+    /** @test * */
+    public function calculating_distance_between_coordinates()
+    {
+        $addressOne = $this->pro66p->autocomplete('5212 VJ', 2);
+        $addressTwo = $this->pro66p->autocomplete('1050', 86, null, 'Chaussee de Boondael');
+
+        $distance = $this->pro66p->distanceBetweenInKilometers($addressOne['lat'], $addressOne['lng'], $addressTwo['lat'], $addressTwo['lng']);
+        $this->assertEquals(116.41349428747, $distance);
+    }
 }

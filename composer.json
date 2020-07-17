@@ -23,9 +23,10 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpunit/phpunit": "^9.0",
+        "roave/security-advisories": "dev-master",
+        "symfony/var-dumper": "^5.1",
         "vimeo/psalm": "^3.11"
     },
     "autoload": {
