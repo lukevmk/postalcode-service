@@ -6,3 +6,4 @@ coverage
 .phpunit.result.cache
 .php_cs.cache
 phpunit.xml
+.idea/
