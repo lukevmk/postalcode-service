@@ -14,11 +14,6 @@ use Ptchr\PostalCodeService\Exceptions\UnauthorizedException;
 class Pro6pp
 {
     /**
-     * @var string
-     */
-    private string $apiKey;
-
-    /**
      * @var Client
      */
     private Client $guzzle;
@@ -32,9 +27,8 @@ class Pro6pp
      * Pro6pp constructor.
      * @param string $apiKey
      */
-    public function __construct(string $apiKey)
+    public function __construct(private string $apiKey)
     {
-        $this->apiKey = $apiKey;
         $this->guzzle = new Client();
     }
 
@@ -209,7 +203,7 @@ class Pro6pp
      * @param float $lon2
      * @return float|int
      */
-    public function distanceBetweenInKilometers(float $lat1, float $lon1, float $lat2, float $lon2)
+    public function distanceBetweenInKilometers(float $lat1, float $lon1, float $lat2, float $lon2): float|int
     {
         $pi80 = M_PI / 180;
 
