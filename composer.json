@@ -11,14 +11,14 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Christiaan Mes",
-            "email": "christiaan@ptchr.nl",
+            "name": "ptchr",
+            "email": "luke@ptchr.nl",
             "homepage": "https://ptchr.nl",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^7.4|^8.0|^8.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "ext-json": "*"
     },
